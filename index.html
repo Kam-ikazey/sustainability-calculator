@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Sustainability Calculator | Alchemist's Manor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=8">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Impact Calc.</h2>
+                <p>Estimate your travel footprint</p>
+            </div>
+
+            <!-- Property Selector Dropdown -->
+            <div class="property-selector">
+                <label for="property">Select Property</label>
+                <select id="property">
+                    <option value="alchemist-manor" selected>🏔️ Alchemist's Manor</option>
+                    <option value="ocean-sanctuary">🌊 Ocean Sanctuary Resort</option>
+                    <option value="forest-retreat">🌲 Forest Retreat Lodge</option>
+                    <option value="desert-oasis">🏜️ Desert Oasis Villa</option>
+                    <option value="mountain-lodge">🏔️ Mountain Lodge Estate</option>
+                </select>
+            </div>
+
+            <!-- Property Card -->
+            <div class="property-card" id="property-display">
+                <div class="property-icon" id="property-icon">🏔️</div>
+                <h3 class="property-name" id="property-name">Alchemist's Manor</h3>
+                <p class="property-location" id="property-location">Uttarakhand, India</p>
+                <div class="property-emission-badge">
+                    <span class="emission-value" id="emission-value">−340</span>
+                    <span class="emission-unit">kg CO₂e / person / night</span>
+                </div>
+            </div>
+
+            <div class="inputs-container">
+                <div class="input-group">
+                    <label for="guests">Number of Guests <span id="guests-val">2</span></label>
+                    <input type="range" id="guests" min="1" max="10" value="2">
+                </div>
+                <div class="input-group">
+                    <label for="nights">Number of Nights <span id="nights-val">3</span></label>
+                    <input type="range" id="nights" min="1" max="30" value="3">
+                </div>
+            </div>
+
+            <div class="gauge-container">
+                <div class="gauge-wrapper">
+                    <svg class="gauge" viewBox="0 0 100 60">
+                        <!-- Background arc -->
+                        <path class="gauge-bg" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#e0e7df"
+                            stroke-width="10" stroke-linecap="round" />
+                        <!-- Colored fill arc -->
+                        <path class="gauge-fill" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#2e7d32"
+                            stroke-width="10" stroke-linecap="round" stroke-dasharray="126" stroke-dashoffset="126" />
+                    </svg>
+                    <div class="gauge-value" id="co2-value">0</div>
+                    <div class="gauge-unit">kg CO₂e</div>
+                </div>
+                <p class="gauge-label" id="gauge-label">Carbon Offset</p>
+            </div>
+
+            <div class="factoids-container">
+                <div class="factoid" id="factoid-1">
+                    <span class="factoid-icon">🌲</span>
+                    <p id="factoid-1-text">Your stay <strong id="absorb-equiv">absorbs 680 kg</strong> of CO₂</p>
+                </div>
+                <div class="factoid" id="factoid-2">
+                    <span class="factoid-icon">🌿</span>
+                    <p id="factoid-2-text">That's like <strong id="trees-equiv">planting 31 trees</strong></p>
+                </div>
+            </div>
+            <button class="reserve-now-btn" onclick="window.location.href='../mld-banner/receipt.html'">
+                <span>🌿</span> Reserve Now
+            </button>
+            <div class="mobile-nav-arrow" id="nav-arrow-1">
+                <span>Explore</span> ➔
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <div class="slide-group" id="slide-2">
+                <!-- SECTION 1: 3D CAROUSEL -->
+                <section class="carousel-section">
+                    <h3 class="section-title">Alchemist's Manor</h3>
+                    <div class="carousel-3d-container">
+                        <div class="carousel-3d">
+                            <div class="carousel-item" style="--i: 0"><img src="assets/img1.png" alt="Luxury Eco"></div>
+                            <div class="carousel-item" style="--i: 1"><img src="assets/img2.png" alt="Forest Retreat">
+                            </div>
+                            <div class="carousel-item" style="--i: 2"><img src="assets/img3.png" alt="Ocean Sanctuary">
+                            </div>
+                            <div class="carousel-item" style="--i: 3"><img src="assets/img4.png" alt="Desert Oasis">
+                            </div>
+                            <div class="carousel-item" style="--i: 4"><img src="assets/img5.png" alt="Mountain Lodge">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ECO RATING BAR (single centered line below carousel) -->
+                <div class="eco-rating-bar">
+                    <span class="eco-rating-icon">⭐</span>
+                    <span class="eco-rating-label">Eco Rating</span>
+                    <span class="eco-rating-score">4.3</span>
+                    <span class="eco-rating-divider">·</span>
+                    <span class="eco-rating-text">This property is carbon negative — absorbs <strong>690 kg</strong> CO₂ per night</span>
+                </div>
+
+                <!-- SECTION 2: ELEMENTAL RATINGS (6 flip cards: Air, Water, Fire, Earth, People, Soul) -->
+                <section class="flashcards-section">
+                    <h3 class="section-title">Sustainability Highlights</h3>
+                    <div class="flashcards-grid" id="elemental-cards">
+
+                        <!-- Air -->
+                        <div class="flip-card" onclick="toggleFlip(this)">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front element-air">
+                                    <div class="element-rating-badge air-badge">4.1</div>
+                                    <div class="icon">🌬️</div>
+                                    <h4>Air</h4>
+                                    <p class="element-title">AQI Below 20</p>
+                                    <p class="element-metric">PM 2.5 < 20 · High-altitude microclimate</p>
+                                </div>
+                                <div class="flip-card-back element-air-back">
+                                    <div class="back-close-hint">tap to close</div>
+                                    <h4>🌬️ Air Quality</h4>
+                                    <p>Escape the heavy city smog and fill your lungs with pristine mountain air your body actually recognizes. With AQI and PM 2.5 levels consistently staying below 20, Alchemist Manor offers a genuinely healing high altitude microclimate.</p>
+                                    <p class="back-highlight">You are not just coming here to relax because permanent exposure to this exceptionally clean air could literally push your lifespan up by up to 20 years.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Water -->
+                        <div class="flip-card" onclick="toggleFlip(this)">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front element-water">
+                                    <div class="element-rating-badge water-badge">4.4</div>
+                                    <div class="icon">💧</div>
+                                    <h4>Water</h4>
+                                    <p class="element-title">100% Chemical Free</p>
+                                    <p class="element-metric">200,000 L rainwater · Mountain stream</p>
+                                </div>
+                                <div class="flip-card-back element-water-back">
+                                    <div class="back-close-hint">tap to close</div>
+                                    <h4>💧 Water Purity</h4>
+                                    <p>Experience water exactly the way nature intended it. Sourced directly from a pure mountain stream and generously supplemented by 200,000 liters of harvested rainwater annually, every single drop is entirely chemical and fluoride free.</p>
+                                    <p class="back-highlight">You will immediately taste the refreshing clarity in your glass and feel a natural revitalizing softness on your skin.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fire -->
+                        <div class="flip-card" onclick="toggleFlip(this)">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front element-fire">
+                                    <div class="element-rating-badge fire-badge">4.2</div>
+                                    <div class="icon">🔥</div>
+                                    <h4>Fire</h4>
+                                    <p class="element-title">75% Solar Powered</p>
+                                    <p class="element-metric">4 chefs · Pahadi recipes · Chulha cooking</p>
+                                </div>
+                                <div class="flip-card-back element-fire-back">
+                                    <div class="back-close-hint">tap to close</div>
+                                    <h4>🔥 Clean Energy</h4>
+                                    <p>Harness the incredible clean power of the sun. Over 75 percent of our entire electricity is generated through solar energy frequently producing so much power that we actively give electricity right back to the local grid.</p>
+                                    <p>This deeply mindful use of natural energy beautifully extends to our kitchen where four resident chefs masterfully elevate traditional Pahadi recipes using classic slow cooking chulha techniques.</p>
+                                    <p class="back-highlight">Every gourmet meal is carefully designed to detoxify your system while providing unmatched comforting warmth for your soul.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earth -->
+                        <div class="flip-card" onclick="toggleFlip(this)">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front element-earth">
+                                    <div class="element-rating-badge earth-badge">4.6</div>
+                                    <div class="icon">🌿</div>
+                                    <h4>Earth</h4>
+                                    <p class="element-title">12,000 Private Trees</p>
+                                    <p class="element-metric">690 kg CO₂/night · Carbon −ve</p>
+                                </div>
+                                <div class="flip-card-back element-earth-back">
+                                    <div class="back-close-hint">tap to close</div>
+                                    <h4>🌿 Living Forest</h4>
+                                    <p>Step out into a private forest of 12,000 trees located entirely within the property boundaries. This vibrant living ecosystem easily sequesters 690 kg of CO2 every single night making your stay extensively carbon negative.</p>
+                                    <p class="back-highlight">By booking Alchemist Manor you actively support a pristine Uttarakhand environment that fights global warming while simultaneously healing you.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- People -->
+                        <div class="flip-card" onclick="toggleFlip(this)">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front element-people">
+                                    <div class="element-rating-badge people-badge">4.3</div>
+                                    <div class="icon">🧑‍🤝‍🧑</div>
+                                    <h4>People</h4>
+                                    <p class="element-title">100% Local Staff</p>
+                                    <p class="element-metric">Cooperative partnerships · Community</p>
+                                </div>
+                                <div class="flip-card-back element-people-back">
+                                    <div class="back-close-hint">tap to close</div>
+                                    <h4>🧑‍🤝‍🧑 Local Impact</h4>
+                                    <p>Your entire experience is beautifully shaped by the people who belong to this land. We employ a fully local staff and maintain active purposeful partnerships with regional cooperatives.</p>
+                                    <p class="back-highlight">This mindful approach ensures your visit directly empowers the local ecosystem while giving you a much richer and more meaningful story to take home.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Soul -->
+                        <div class="flip-card" onclick="toggleFlip(this)">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front element-soul">
+                                    <div class="element-rating-badge soul-badge">4.7</div>
+                                    <div class="icon">🧘</div>
+                                    <h4>Soul</h4>
+                                    <p class="element-title">Dedicated Life Coach</p>
+                                    <p class="element-metric">Sound healing · Transformative wellness</p>
+                                </div>
+                                <div class="flip-card-back element-soul-back">
+                                    <div class="back-close-hint">tap to close</div>
+                                    <h4>🧘 Inner Wellness</h4>
+                                    <p>Clean food and pristine air beautifully lay the foundation for your rest but we take your personal wellness a crucial step further. Our host Adnaan is a highly dedicated life coach and professional sound healer.</p>
+                                    <p class="back-highlight">Book a private session during your stay to tap into your own transformative journey toward deep and resonant healing.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+                <div class="mobile-nav-arrow right" id="nav-arrow-2">
+                    ➔
+                </div>
+            </div>
+
+            <!-- SECTION 3: OFFSET EXPERIENCES -->
+            <section class="offset-section" id="slide-3">
+                <h3 class="section-title">Offset Your Footprint</h3>
+                <p class="section-subtitle">Choose an experience below. We offset your carbon footprint for you — and you get a certificate ;)</p>
+                <div class="experiences-row">
+
+                    <!-- 1. Adopt/Plant a Tree -->
+                    <div class="exp-card exp-free">
+                        <div class="exp-img" style="background: linear-gradient(135deg, #a5d6a7 0%, #66bb6a 100%);">
+                            <span class="exp-emoji">🌱</span>
+                        </div>
+                        <div class="exp-info">
+                            <h4>Adopt a Tree / Plant a Tree</h4>
+                            <p class="exp-offset-tag">−12 kg CO₂ equivalent</p>
+                            <button class="exp-btn exp-btn-free">Free</button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Sound Healing Session -->
+                    <div class="exp-card">
+                        <div class="exp-img" style="background: linear-gradient(135deg, #ce93d8 0%, #7b1fa2 100%);">
+                            <span class="exp-emoji">🎵</span>
+                        </div>
+                        <div class="exp-info">
+                            <h4>Sound Healing Session</h4>
+                            <p class="exp-offset-tag">Offsets 100 kg CO₂e</p>
+                            <div class="exp-price">
+                                <span class="exp-price-old">₹4,000</span>
+                                <span class="exp-price-new">₹1,947</span>
+                            </div>
+                            <button class="exp-btn">Book Now</button>
+                        </div>
+                    </div>
+
+                    <!-- 3. Direct UN Offset -->
+                    <div class="exp-card">
+                        <div class="exp-img" style="background: linear-gradient(135deg, #64b5f6 0%, #1565c0 100%);">
+                            <span class="exp-emoji">🌍</span>
+                        </div>
+                        <div class="exp-info">
+                            <h4>Direct UN Offset</h4>
+                            <p class="exp-offset-tag">Offsets 100 kg CO₂e via UN project</p>
+                            <div class="exp-price">
+                                <span class="exp-price-old">₹2,500</span>
+                                <span class="exp-price-new">₹999</span>
+                            </div>
+                            <button class="exp-btn">Book Now</button>
+                        </div>
+                    </div>
+
+                    <!-- 4. Guided Pinecone Painting -->
+                    <div class="exp-card">
+                        <div class="exp-img" style="background: linear-gradient(135deg, #ffcc80 0%, #ef6c00 100%);">
+                            <span class="exp-emoji">🎨</span>
+                        </div>
+                        <div class="exp-info">
+                            <h4>Guided Pinecone Painting</h4>
+                            <p class="exp-offset-tag">Offsets 3 kg CO₂e</p>
+                            <button class="exp-btn">₹300</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mobile-nav-arrow left" id="nav-arrow-back">
+                    ← Back
+                </div>
+            </section>
+
+        </main>
+    </div>
+    <script src="main.js?v=8"></script>
+</body>
+
+</html>
