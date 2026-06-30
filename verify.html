@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Offset Verification Portal | MLD Homes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="verify-style.css?v=1">
+</head>
+
+<body>
+    <div class="verify-container">
+        <!-- HEADER -->
+        <header class="verify-header">
+            <div class="logo">MLD<span>Homes</span></div>
+            <span class="secure-badge">🛡️ Secure Verification</span>
+        </header>
+
+        <!-- MAIN CARD -->
+        <main class="cert-card" id="cert-card">
+            <div class="card-bg-glow"></div>
+            
+            <!-- Seal -->
+            <div class="seal-container">
+                <div class="seal-icon">✓</div>
+                <div class="seal-status">VERIFIED ACTIVE</div>
+                <div class="seal-timestamp" id="cert-timestamp">Verified on June 30, 2026</div>
+            </div>
+
+            <!-- Title -->
+            <h1 class="cert-title">Carbon Offset Certificate</h1>
+            <p class="cert-subtitle">This certificate verifies that carbon offset allocations have been retired on the UN Registry for:</p>
+
+            <!-- Recipient details -->
+            <div class="cert-recipient">
+                <h2 id="guest-name">John Doe</h2>
+                <div class="offset-badge">
+                    <span class="offset-weight" id="offset-weight">150 kg</span>
+                    <span class="offset-label">CO₂e Retired</span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Fractional Share Details -->
+            <div class="allocation-section">
+                <h3>Allocation Breakdown</h3>
+                <div class="share-box">
+                    <p class="share-text">
+                        Your offset of <strong id="allocation-weight">150 kg</strong> represents exactly 
+                        <strong class="share-pct" id="share-pct">7.50%</strong> of the pre-retired 
+                        <strong>2.0 Tonne (2,000 kg)</strong> parent UN Certificate.
+                    </p>
+                    <!-- Progress Bar representing fractional ownership -->
+                    <div class="share-bar-container">
+                        <div class="share-bar" id="share-bar" style="width: 7.5%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parent UN Certificate Details -->
+            <div class="parent-cert-section">
+                <h3>Parent UN Registry Credentials</h3>
+                <table class="credentials-table">
+                    <tr>
+                        <th>Registry Issuer</th>
+                        <td>UNFCCC Clean Development Mechanism (CDM)</td>
+                    </tr>
+                    <tr>
+                        <th>Serial Number</th>
+                        <td class="mono" id="un-serial">IN-5-9482710-1-1-0-28347</td>
+                    </tr>
+                    <tr>
+                        <th>UN Project Name</th>
+                        <td>Reforestation & biodiversity restoration in Western Himalayas</td>
+                    </tr>
+                    <tr>
+                        <th>Total Pool Size</th>
+                        <td>2.0 Tonnes (2,000 kg) CO₂e</td>
+                    </tr>
+                    <tr>
+                        <th>Retirement Date</th>
+                        <td>March 15, 2026</td>
+                    </tr>
+                </table>
+
+                <!-- Link to UN Registry -->
+                <a href="https://cdm.unfccc.int/" target="_blank" class="un-registry-btn" id="un-registry-link">
+                    <span>🌐</span> View Official UN Registry Certificate
+                </a>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Footer Details -->
+            <div class="cert-footer">
+                <div class="cert-meta">
+                    <span class="meta-label">Verification ID</span>
+                    <span class="meta-value mono" id="verification-id">c3ab8f902d13b482...</span>
+                </div>
+                <div class="cert-qr-placeholder">
+                    <!-- A simple SVG QR representation for premium visual look -->
+                    <svg viewBox="0 0 100 100" class="qr-svg">
+                        <rect width="100" height="100" fill="none" stroke="#2e7d32" stroke-width="2"/>
+                        <rect x="10" y="10" width="30" height="30" fill="#2e7d32"/>
+                        <rect x="17" y="17" width="16" height="16" fill="white"/>
+                        <rect x="22" y="22" width="6" height="6" fill="#2e7d32"/>
+                        
+                        <rect x="60" y="10" width="30" height="30" fill="#2e7d32"/>
+                        <rect x="67" y="17" width="16" height="16" fill="white"/>
+                        <rect x="72" y="22" width="6" height="6" fill="#2e7d32"/>
+                        
+                        <rect x="10" y="60" width="30" height="30" fill="#2e7d32"/>
+                        <rect x="17" y="67" width="16" height="16" fill="white"/>
+                        <rect x="22" y="72" width="6" height="6" fill="#2e7d32"/>
+                        
+                        <rect x="50" y="50" width="10" height="10" fill="#2e7d32"/>
+                        <rect x="70" y="60" width="15" height="15" fill="#2e7d32"/>
+                        <rect x="60" y="80" width="20" height="10" fill="#2e7d32"/>
+                    </svg>
+                </div>
+            </div>
+        </main>
+
+        <!-- ACTIONS -->
+        <div class="action-panel">
+            <button class="action-btn btn-print" id="btn-print">
+                <span>🖨️</span> Download Certificate (PDF)
+            </button>
+            <button class="action-btn btn-copy" id="btn-copy">
+                <span>🔗</span> Copy Verification Link
+            </button>
+        </div>
+
+        <footer class="portal-footer">
+            <p>Verification dashboard secured by MLD Homes Stewardship Ledger.</p>
+            <p><a href="index.html">← Back to Stay Calculator</a> | <a href="travel.html">Journey Calculator</a></p>
+        </footer>
+    </div>
+
+    <script src="verify-main.js?v=1"></script>
+</body>
+
+</html>

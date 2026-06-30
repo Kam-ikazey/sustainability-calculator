@@ -51,6 +51,7 @@ const PROPERTIES = {
 let currentProperty = PROPERTIES['alchemist-manor'];
 let currentGuests = parseInt(guestsInput.value);
 let currentNights = parseInt(nightsInput.value);
+let currentTotalImpact = 0;
 
 // ── Property Selector ──
 propertySelect.addEventListener('change', (e) => {
@@ -76,6 +77,7 @@ function updateCalculator() {
 
     const emissionRate = currentProperty.emissionPerPersonPerNight;
     const totalImpact = currentGuests * currentNights * emissionRate;
+    currentTotalImpact = totalImpact;
     // totalImpact is negative for carbon-negative properties
 
     const isNegative = totalImpact < 0;
@@ -305,3 +307,11 @@ function scrollToSlide(slideElement) {
 if (navArrow1) navArrow1.addEventListener('click', () => scrollToSlide(slide2));
 if (navArrow2) navArrow2.addEventListener('click', () => scrollToSlide(slide3));
 if (navArrowBack) navArrowBack.addEventListener('click', () => scrollToSlide(sidebarEl));
+
+const reserveBtn = document.getElementById('reserve-btn');
+if (reserveBtn) {
+    reserveBtn.addEventListener('click', () => {
+        const offsetVal = Math.max(10, Math.abs(currentTotalImpact));
+        window.location.href = `verify.html?name=Stewardship+Guest&amount=${offsetVal}`;
+    });
+}

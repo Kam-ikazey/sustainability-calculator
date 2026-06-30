@@ -67,6 +67,7 @@ let currentOrigin = { name: "New Delhi, India", lat: 28.6139, lon: 77.2090 };
 let currentProperty = PROPERTIES['alchemist-manor'];
 let travelMode = 'air'; // air, train, car, mixed
 let totalDistance = 0;
+let currentTotalEmissions = 0;
 
 // Mixed split values (KMs)
 let splitAir = 0;
@@ -361,6 +362,7 @@ function updateEmissions() {
     const carEmissions = splitCar * FACTORS.car;
     const trainEmissions = splitTrain * FACTORS.train;
     const totalEmissions = Math.round(airEmissions + carEmissions + trainEmissions);
+    currentTotalEmissions = totalEmissions;
 
     // Animate large emission counter
     animateValue(travelCo2Value, '', totalEmissions, 500);
@@ -588,3 +590,20 @@ function scrollToSlide(slideElement) {
 if (navArrow1) navArrow1.addEventListener('click', () => scrollToSlide(slide2));
 if (navArrow2) navArrow2.addEventListener('click', () => scrollToSlide(slide3));
 if (navArrowBack) navArrowBack.addEventListener('click', () => scrollToSlide(sidebarEl));
+
+// Offset Experience Card Clicks
+const offsetTransitBtn = document.getElementById('btn-offset-transit');
+const offsetForestBtn = document.getElementById('btn-offset-forest');
+
+if (offsetTransitBtn) {
+    offsetTransitBtn.addEventListener('click', () => {
+        const amountVal = Math.max(10, currentTotalEmissions);
+        window.location.href = `verify.html?name=Stewardship+Traveler&amount=${amountVal}`;
+    });
+}
+
+if (offsetForestBtn) {
+    offsetForestBtn.addEventListener('click', () => {
+        window.location.href = `verify.html?name=Forest+Steward&amount=110`;
+    });
+}
