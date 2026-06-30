@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey Carbon Calculator | Alchemist's Manor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="travel-style.css?v=1">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+            <!-- Navigation Tabs -->
+            <div class="calc-tabs">
+                <a href="index.html" class="tab-btn">🏡 Stay Calculator</a>
+                <a href="travel.html" class="tab-btn active">✈️ Journey Calculator</a>
+            </div>
+
+            <div class="sidebar-header">
+                <h2>Journey Calc.</h2>
+                <p>Calculate your travel transit footprint</p>
+            </div>
+
+            <!-- Property Destination Dropdown -->
+            <div class="property-selector">
+                <label for="travel-property">Destination Property</label>
+                <select id="travel-property">
+                    <option value="alchemist-manor" selected>🏔️ Alchemist's Manor (Uttarakhand)</option>
+                    <option value="ocean-sanctuary">🌊 Ocean Sanctuary Resort (Goa)</option>
+                    <option value="forest-retreat">🌲 Forest Retreat Lodge (Himachal)</option>
+                    <option value="desert-oasis">🏜️ Desert Oasis Villa (Rajasthan)</option>
+                    <option value="mountain-lodge">🏔️ Mountain Lodge Estate (Uttarakhand)</option>
+                </select>
+            </div>
+
+            <!-- Origin Input -->
+            <div class="origin-selector">
+                <label for="origin-city">Travelling From</label>
+                <div class="origin-input-wrapper">
+                    <input type="text" id="origin-city" placeholder="Detecting location..." autocomplete="off">
+                    <button id="detect-loc-btn" title="Detect Current Location">📍</button>
+                </div>
+                <!-- Autocomplete Dropdown List -->
+                <div class="autocomplete-list" id="autocomplete-list"></div>
+                <div class="location-status" id="location-status">Detecting location via IP...</div>
+            </div>
+
+            <!-- Route Summary -->
+            <div class="route-summary-card">
+                <div class="route-info">
+                    <span class="route-icon">🌐</span>
+                    <div>
+                        <h4 id="route-path-text">Delhi ➔ Uttarakhand</h4>
+                        <p id="route-distance-text">Calculating distance...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carbon Gauge -->
+            <div class="gauge-container">
+                <div class="gauge-wrapper">
+                    <svg class="gauge" viewBox="0 0 100 60">
+                        <path class="gauge-bg" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#e0e7df"
+                            stroke-width="10" stroke-linecap="round" />
+                        <path class="gauge-fill" id="travel-gauge-fill" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#2e7d32"
+                            stroke-width="10" stroke-linecap="round" stroke-dasharray="126" stroke-dashoffset="126" />
+                    </svg>
+                    <div class="gauge-value" id="travel-co2-value">0</div>
+                    <div class="gauge-unit">kg CO₂e</div>
+                </div>
+                <p class="gauge-label" id="travel-gauge-label">Journey Emissions</p>
+            </div>
+
+            <!-- Factoids -->
+            <div class="factoids-container">
+                <div class="factoid" id="travel-factoid-1">
+                    <span class="factoid-icon">🌲</span>
+                    <p id="travel-factoid-text">It takes <strong id="travel-trees-equiv">12 trees</strong> one year to offset this trip.</p>
+                </div>
+            </div>
+
+            <!-- Mobile nav arrow -->
+            <div class="mobile-nav-arrow" id="nav-arrow-1">
+                <span>Configure Transit</span> ➔
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- Slide Group 1: Configuration & Map -->
+            <div class="slide-group" id="slide-2">
+                <!-- Route Map Visualization -->
+                <section class="map-section">
+                    <h3 class="section-title">Visual Transit Route</h3>
+                    <div class="map-container">
+                        <!-- Animated Route SVG -->
+                        <svg class="route-map-svg" viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background Map Grids -->
+                            <rect width="800" height="350" fill="#f8faf7" rx="16" />
+                            <circle cx="200" cy="100" r="100" fill="#e2ede0" opacity="0.4" />
+                            <circle cx="600" cy="220" r="120" fill="#e2ede0" opacity="0.4" />
+                            
+                            <!-- Grid lines -->
+                            <path d="M 0,50 L 800,50 M 0,100 L 800,100 M 0,150 L 800,150 M 0,200 L 800,200 M 0,250 L 800,250 M 0,300 L 800,300" stroke="#e6ece4" stroke-width="1" stroke-dasharray="5,5" />
+                            <path d="M 100,0 L 100,350 M 200,0 L 200,350 M 300,0 L 300,350 M 400,0 L 400,350 M 500,0 L 500,350 M 600,0 L 600,350 M 700,0 L 700,350" stroke="#e6ece4" stroke-width="1" stroke-dasharray="5,5" />
+
+                            <!-- Path Line -->
+                            <path id="route-path-line" d="M 150,220 Q 400,80 650,130" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-dasharray="8,6" />
+                            
+                            <!-- Origin Marker -->
+                            <g transform="translate(150, 220)">
+                                <circle cx="0" cy="0" r="10" fill="#2e7d32" opacity="0.3" />
+                                <circle cx="0" cy="0" r="5" fill="#2e7d32" />
+                                <text x="-25" y="-15" font-family="'Outfit', sans-serif" font-size="12" font-weight="600" fill="#555" id="map-origin-label">Origin</text>
+                            </g>
+
+                            <!-- Destination Marker -->
+                            <g transform="translate(650, 130)">
+                                <circle cx="0" cy="0" r="14" fill="#fbc02d" opacity="0.3" />
+                                <circle cx="0" cy="0" r="7" fill="#fbc02d" />
+                                <text x="-35" y="-18" font-family="'Outfit', sans-serif" font-size="12" font-weight="600" fill="#2e7d32" id="map-dest-label">Destination</text>
+                            </g>
+
+                            <!-- Transit Icon along Path -->
+                            <g id="transit-avatar" transform="translate(150, 220)">
+                                <circle cx="0" cy="-10" r="15" fill="#ffffff" stroke="#2e7d32" stroke-width="2" />
+                                <text x="-8" y="-5" font-size="14" id="transit-emoji">✈️</text>
+                            </g>
+                        </svg>
+                        <div class="map-overlay-info">
+                            <span id="route-type-display">Direct Flight</span> Route Visualizer
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Travel Mode Selector Section -->
+                <section class="transit-config-section">
+                    <h3 class="section-title">Select Transit Mode</h3>
+                    <div class="mode-cards-grid">
+                        <div class="mode-card active" data-mode="air">
+                            <span class="mode-icon">✈️</span>
+                            <h4>Air Travel</h4>
+                            <p>Direct or connecting flights</p>
+                        </div>
+                        <div class="mode-card" data-mode="train">
+                            <span class="mode-icon">🚄</span>
+                            <h4>Train</h4>
+                            <p>Low-carbon rail transit</p>
+                        </div>
+                        <div class="mode-card" data-mode="car">
+                            <span class="mode-icon">🚗</span>
+                            <h4>Car</h4>
+                            <p>Road-trip / private cab</p>
+                        </div>
+                        <div class="mode-card" data-mode="mixed">
+                            <span class="mode-icon">🔀</span>
+                            <h4>Mixed</h4>
+                            <p>Combine multiple modes</p>
+                        </div>
+                    </div>
+
+                    <!-- Mixed Mode Sliders (Hidden by default, shown when mixed is active) -->
+                    <div class="mixed-sliders-panel" id="mixed-sliders-panel">
+                        <h4 class="sub-title">Customize Transit Splits</h4>
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>✈️ Flight Distance</span>
+                                <span class="val-display"><span id="mixed-air-val">0</span> km</span>
+                            </div>
+                            <input type="range" id="mixed-air" min="0" max="1000" value="0">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>🚄 Train Distance</span>
+                                <span class="val-display"><span id="mixed-train-val">0</span> km</span>
+                            </div>
+                            <input type="range" id="mixed-train" min="0" max="1000" value="0">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>🚗 Car Distance</span>
+                                <span class="val-display"><span id="mixed-car-val">0</span> km</span>
+                            </div>
+                            <input type="range" id="mixed-car" min="0" max="1000" value="0">
+                        </div>
+                        <p class="sliders-sum-status" id="sliders-sum-status">Total: 0 km / Target: 0 km</p>
+                    </div>
+                </section>
+                
+                <div class="mobile-nav-arrow right" id="nav-arrow-2">
+                    ➔
+                </div>
+            </div>
+
+            <!-- Slide Group 2: Comparison & Offsets -->
+            <div class="slide-group" id="slide-3">
+                <!-- Emissions Comparison Section -->
+                <section class="comparison-section">
+                    <h3 class="section-title">Compare Alternative Routes</h3>
+                    <div class="comparison-box">
+                        <p class="comparison-intro">Carbon impact comparison for the same distance (<strong id="compare-dist">0 km</strong>):</p>
+                        
+                        <div class="compare-bars-list">
+                            <!-- Air -->
+                            <div class="compare-item">
+                                <div class="compare-label">
+                                    <span>✈️ Air Travel</span>
+                                    <span class="co2-text" id="compare-air-co2">0 kg CO₂e</span>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar bar-air" id="bar-air" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Car -->
+                            <div class="compare-item">
+                                <div class="compare-label">
+                                    <span>🚗 Private Car</span>
+                                    <span class="co2-text" id="compare-car-co2">0 kg CO₂e</span>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar bar-car" id="bar-car" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Train -->
+                            <div class="compare-item">
+                                <div class="compare-label">
+                                    <span>🚄 Rail Transit</span>
+                                    <span class="co2-text" id="compare-train-co2">0 kg CO₂e</span>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar bar-train" id="bar-train" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="saving-nudge" id="saving-nudge">
+                            <span class="nudge-icon">💡</span>
+                            <p id="saving-nudge-text">Switching to train travel saves <strong>80%</strong> of emissions!</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Offset Section -->
+                <section class="offset-section">
+                    <h3 class="section-title">Offset Your Footprint</h3>
+                    <p class="section-subtitle">Let us take care of your transit emissions. Support local offsets and receive a carbon travel certificate.</p>
+                    <div class="experiences-row">
+                        <!-- Offset Card 1 -->
+                        <div class="exp-card">
+                            <div class="exp-img" style="background: linear-gradient(135deg, #a5d6a7 0%, #2e7d32 100%);">
+                                <span class="exp-emoji">🚄</span>
+                            </div>
+                            <div class="exp-info">
+                                <h4>Eco-Transit Contribution</h4>
+                                <p class="exp-offset-tag">Offsets 100% of flight carbon</p>
+                                <div class="exp-price">
+                                    <span class="exp-price-old">₹1,500</span>
+                                    <span class="exp-price-new">₹699</span>
+                                </div>
+                                <button class="exp-btn">Select Offset</button>
+                            </div>
+                        </div>
+
+                        <!-- Offset Card 2 -->
+                        <div class="exp-card">
+                            <div class="exp-img" style="background: linear-gradient(135deg, #81c784 0%, #388e3c 100%);">
+                                <span class="exp-emoji">🌲</span>
+                            </div>
+                            <div class="exp-info">
+                                <h4>Forest Expansion (Uttarakhand)</h4>
+                                <p class="exp-offset-tag">Plants 5 native deodar saplings</p>
+                                <div class="exp-price">
+                                    <span class="exp-price-old">₹800</span>
+                                    <span class="exp-price-new">₹450</span>
+                                </div>
+                                <button class="exp-btn">Select Offset</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-nav-arrow left" id="nav-arrow-back">
+                        ← Back
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="travel-main.js?v=1"></script>
+</body>
+
+</html>
