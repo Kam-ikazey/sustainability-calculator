@@ -404,6 +404,45 @@ function updateEmissions() {
     // Nudge Text
     const savingsPercent = Math.round(((altAirCO2 - altTrainCO2) / altAirCO2) * 100);
     savingNudgeText.innerHTML = `Switching to rail transit saves <strong>${savingsPercent}%</strong> of emissions (${(altAirCO2 - altTrainCO2).toLocaleString()} kg CO₂e) compared to flying!`;
+
+    // ── Narrative Copy ──
+    updateTravelNarrative(totalEmissions, altAirCO2, saved);
+}
+
+function updateTravelNarrative(totalEmissions, altAirCO2, saved) {
+    const textEl = document.getElementById('travel-narrative-text');
+    const treesEl = document.getElementById('travel-narrative-trees');
+    const energyEl = document.getElementById('travel-narrative-energy');
+
+    if (!textEl) return;
+
+    const phoneCharges = Math.round(saved * 120);
+    const treesEquivalent = Math.max(1, Math.round(saved / 22));
+
+    if (travelMode === 'air') {
+        textEl.innerHTML = `Your journey emitted <strong>${totalEmissions.toLocaleString()} kgs</strong> of CO₂ via direct flight. While air travel is the fastest transit mode, you can offset this entire footprint by supporting local forestry or eco-transit initiatives below, which grants a carbon neutrality certificate.`;
+        
+        const reqTrees = Math.max(1, Math.round(totalEmissions / 22));
+        treesEl.textContent = reqTrees.toLocaleString();
+        
+        const label1 = document.querySelector('#travel-narrative-trees');
+        if (label1 && label1.nextElementSibling) {
+            label1.nextElementSibling.textContent = "Trees to Offset";
+        }
+        energyEl.textContent = "0";
+    } else {
+        const percent = altAirCO2 > 0 ? Math.round((saved / altAirCO2) * 100) : 0;
+        let modeLabel = travelMode === 'train' ? 'scenic rail' : travelMode === 'car' ? 'road transit' : 'combined transit';
+        
+        textEl.innerHTML = `Your journey emitted only <strong>${totalEmissions.toLocaleString()} kgs</strong> of CO₂ via ${modeLabel}. By opting out of standard flights, you successfully avoided <strong>${saved.toLocaleString()} kg</strong> of carbon emissions (a <strong>${percent}% reduction</strong>), letting the planet breathe easier.`;
+
+        treesEl.textContent = treesEquivalent.toLocaleString();
+        const label2 = document.querySelector('#travel-narrative-trees');
+        if (label2 && label2.nextElementSibling) {
+            label2.nextElementSibling.textContent = "Trees Saved Equivalent";
+        }
+        energyEl.textContent = phoneCharges.toLocaleString();
+    }
 }
 
 // ── SVG Animated Route Map Controller ──

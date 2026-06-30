@@ -127,6 +127,40 @@ function updateCalculator() {
 
     // ── Factoids ──
     updateFactoids(totalImpact, isNegative, absTotal);
+    
+    // ── Narrative Copy ──
+    updateNarrative(totalImpact, isNegative, absTotal);
+}
+
+function updateNarrative(totalImpact, isNegative, absTotal) {
+    const textEl = document.getElementById('stay-narrative-text');
+    const treesEl = document.getElementById('narrative-trees');
+    const waterEl = document.getElementById('narrative-water');
+    const energyEl = document.getElementById('narrative-energy');
+
+    if (!textEl) return;
+
+    const baseline = currentGuests * currentNights * 35; // 35kg/night baseline
+    const saved = Math.max(0, baseline - totalImpact);
+    
+    let waterHarvestFactor = 548;
+    if (currentProperty.name.includes("Ocean")) waterHarvestFactor = 380;
+    if (currentProperty.name.includes("Desert")) waterHarvestFactor = 150;
+    const waterLiters = currentNights * waterHarvestFactor;
+
+    const phoneCharges = Math.round(saved * 120);
+    const treesEquivalent = Math.max(1, Math.round(saved / 22));
+
+    if (isNegative) {
+        textEl.innerHTML = `Your stay emitted <strong>0 kgs</strong> of CO₂, which is <strong>100% less</strong> than any traditional hotel you could stay at. And going a step further, the green architecture, rainwater harvesting, recycling, and <strong>${currentProperty.name}</strong>'s other stewardship activities further absorbed <strong>${absTotal.toLocaleString()} kg</strong> of carbon from the planet during your stay, making it net carbon negative.`;
+    } else {
+        const savedPercent = Math.max(0, Math.round((saved / baseline) * 100));
+        textEl.innerHTML = `Your stay emitted only <strong>${totalImpact.toLocaleString()} kgs</strong> of CO₂, which is over <strong>${savedPercent}% less</strong> than a traditional hotel. Going a step further, the green architecture, solar power, and conservation activities at <strong>${currentProperty.name}</strong> successfully avoided <strong>${saved.toLocaleString()} kg</strong> of carbon emissions, making it an exceptionally conscious stay.`;
+    }
+
+    treesEl.textContent = treesEquivalent.toLocaleString();
+    waterEl.textContent = `${waterLiters.toLocaleString()} L`;
+    energyEl.textContent = phoneCharges.toLocaleString();
 }
 
 function updateFactoids(totalImpact, isNegative, absTotal) {

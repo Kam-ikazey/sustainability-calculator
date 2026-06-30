@@ -1328,3 +1328,106 @@ input[type=range]::-webkit-slider-thumb {
     color: white;
     box-shadow: 0 2px 8px rgba(46, 125, 50, 0.25);
 }
+
+/* Eco Impact Narrative Card Style */
+.narrative-container {
+    padding: 0 2rem;
+    margin-bottom: 2.5rem;
+}
+.narrative-box {
+    background: #f8faf7;
+    border: 1.5px solid #c8d3c5;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.02);
+    text-align: left;
+}
+.narrative-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+}
+.narrative-icon {
+    font-size: 1.3rem;
+}
+.narrative-header h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin: 0;
+}
+.narrative-text {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+.narrative-text strong {
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+/* Equivalence Grid inside Narrative */
+.narrative-equivalence-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    border-top: 1px dashed #c8d3c5;
+    padding-top: 1.2rem;
+}
+.equiv-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.equiv-emoji {
+    font-size: 1.6rem;
+}
+.equiv-details {
+    display: flex;
+    flex-direction: column;
+}
+.equiv-value {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--primary-green);
+    line-height: 1.2;
+}
+.equiv-label {
+    font-size: 0.7rem;
+    color: #666;
+    font-weight: 600;
+}
+
+/* Responsive mobile override */
+@media (max-width: 768px) {
+    .narrative-container {
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .narrative-box {
+        padding: 1.2rem;
+    }
+    .narrative-text {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+    .narrative-equivalence-grid {
+        grid-template-columns: 1fr; /* stack vertically on mobile to save space */
+        gap: 0.8rem;
+        padding-top: 1rem;
+    }
+    .equiv-item {
+        gap: 0.5rem;
+    }
+    .equiv-emoji {
+        font-size: 1.4rem;
+    }
+    .equiv-value {
+        font-size: 0.95rem;
+    }
+    .equiv-label {
+        font-size: 0.65rem;
+    }
+}
