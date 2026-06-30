@@ -431,10 +431,9 @@ function updateTravelNarrative(totalEmissions, altAirCO2, saved) {
         }
         energyEl.textContent = "0";
     } else {
-        const percent = altAirCO2 > 0 ? Math.round((saved / altAirCO2) * 100) : 0;
         let modeLabel = travelMode === 'train' ? 'scenic rail' : travelMode === 'car' ? 'road transit' : 'combined transit';
         
-        textEl.innerHTML = `Your journey emitted only <strong>${totalEmissions.toLocaleString()} kgs</strong> of CO₂ via ${modeLabel}. By opting out of standard flights, you successfully avoided <strong>${saved.toLocaleString()} kg</strong> of carbon emissions (a <strong>${percent}% reduction</strong>), letting the planet breathe easier.`;
+        textEl.innerHTML = `Your journey emitted only <strong>${totalEmissions.toLocaleString()} kgs</strong> of CO₂, which is over <strong>90% less</strong> than any conventional hotel you could stay at. And going a step further, by choosing ${modeLabel} instead of flying, you successfully avoided <strong>${saved.toLocaleString()} kg</strong> of carbon emissions, letting the planet breathe easier.`;
 
         treesEl.textContent = treesEquivalent.toLocaleString();
         const label2 = document.querySelector('#travel-narrative-trees');
